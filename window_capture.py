@@ -1,4 +1,4 @@
-import Quartz as QZ
+import Quartz as Qz
 import numpy as np
 
 
@@ -31,7 +31,7 @@ class WindowCapture:
             raise Exception('No window name given')
 
     def get_window(self):
-        windows = QZ.CGWindowListCopyWindowInfo(QZ.kCGWindowListOptionAll, QZ.kCGNullWindowID)
+        windows = Qz.CGWindowListCopyWindowInfo(Qz.kCGWindowListOptionAll, Qz.kCGNullWindowID)
         for window in windows:
             name = window.get('kCGWindowName', 'Unknown')
             if name and self.window_name in name:
@@ -54,22 +54,22 @@ class WindowCapture:
         return int(self.window['kCGWindowBounds']['Y'])
 
     def screen_original(self):
-        return QZ.CGPointMake(self.window_x, self.window_y)
+        return Qz.CGPointMake(self.window_x, self.window_y)
 
     def get_image_from_window(self):
-        core_graphics_image = QZ.CGWindowListCreateImage(
-            QZ.CGRectNull,
-            QZ.kCGWindowListOptionIncludingWindow,
+        core_graphics_image = Qz.CGWindowListCreateImage(
+            Qz.CGRectNull,
+            Qz.kCGWindowListOptionIncludingWindow,
             self.window_id,
-            QZ.kCGWindowImageDefault | QZ.kCGWindowImageBoundsIgnoreFraming
+            Qz.kCGWindowImageDefault | Qz.kCGWindowImageBoundsIgnoreFraming
         )
 
-        bytes_per_row = QZ.CGImageGetBytesPerRow(core_graphics_image)
-        width = QZ.CGImageGetWidth(core_graphics_image)
-        height = QZ.CGImageGetHeight(core_graphics_image)
+        bytes_per_row = Qz.CGImageGetBytesPerRow(core_graphics_image)
+        width = Qz.CGImageGetWidth(core_graphics_image)
+        height = Qz.CGImageGetHeight(core_graphics_image)
 
-        core_graphics_data_provider = QZ.CGImageGetDataProvider(core_graphics_image)
-        core_graphics_data = QZ.CGDataProviderCopyData(core_graphics_data_provider)
+        core_graphics_data_provider = Qz.CGImageGetDataProvider(core_graphics_image)
+        core_graphics_data = Qz.CGDataProviderCopyData(core_graphics_data_provider)
 
         np_raw_data = np.frombuffer(core_graphics_data, dtype=np.uint8)
         numpy_data = np.lib.stride_tricks.as_strided(np_raw_data,

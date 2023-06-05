@@ -1,21 +1,19 @@
 from time import sleep
-
-from Quartz import CoreGraphics as CG
 import numpy as np
-import Quartz as QZ
+import Quartz as Qz
 import mss
 
 
 def click(x, y):
-    event = CG.CGEventCreateMouseEvent(
+    event = Qz.CGEventCreateMouseEvent(
         None,
-        CG.kCGEventMouseMoved,
+        Qz.kCGEventMouseMoved,
         (x, y),
-        CG.kCGEventLeftMouseDown,
+        Qz.kCGEventLeftMouseDown,
     )
-    CG.CGEventPost(CG.kCGHIDEventTap, event)
-    CG.CGEventSetType(event, CG.kCGEventLeftMouseDown)
-    CG.CGEventPost(CG.kCGHIDEventTap, event)
+    Qz.CGEventPost(Qz.kCGHIDEventTap, event)
+    Qz.CGEventSetType(event, Qz.kCGEventLeftMouseDown)
+    Qz.CGEventPost(Qz.kCGHIDEventTap, event)
     sleep(0.05)
 
 
@@ -32,19 +30,19 @@ def get_coordinate_color(x, y):
 
 
 def get_image_from_screen():
-    core_graphics_image = QZ.CGWindowListCreateImage(
-        QZ.CGRectInfinite,
-        QZ.kCGWindowListOptionOnScreenOnly,
-        QZ.kCGNullWindowID,
-        QZ.kCGWindowImageDefault
+    core_graphics_image = Qz.CGWindowListCreateImage(
+        Qz.CGRectInfinite,
+        Qz.kCGWindowListOptionOnScreenOnly,
+        Qz.kCGNullWindowID,
+        Qz.kCGWindowImageDefault
     )
 
-    bytes_per_row = QZ.CGImageGetBytesPerRow(core_graphics_image)
-    width = QZ.CGImageGetWidth(core_graphics_image)
-    height = QZ.CGImageGetHeight(core_graphics_image)
+    bytes_per_row = Qz.CGImageGetBytesPerRow(core_graphics_image)
+    width = Qz.CGImageGetWidth(core_graphics_image)
+    height = Qz.CGImageGetHeight(core_graphics_image)
 
-    core_graphics_data_provider = QZ.CGImageGetDataProvider(core_graphics_image)
-    core_graphics_data = QZ.CGDataProviderCopyData(core_graphics_data_provider)
+    core_graphics_data_provider = Qz.CGImageGetDataProvider(core_graphics_image)
+    core_graphics_data = Qz.CGDataProviderCopyData(core_graphics_data_provider)
 
     np_raw_data = np.frombuffer(core_graphics_data, dtype=np.uint8)
     numpy_data = np.lib.stride_tricks.as_strided(np_raw_data,

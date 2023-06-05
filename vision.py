@@ -1,7 +1,4 @@
-import Quartz
-
 from window_capture import WindowCapture
-from utils import get_image_from_screen, click
 import cv2 as cv
 
 
